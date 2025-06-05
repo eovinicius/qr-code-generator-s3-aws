@@ -1,5 +1,6 @@
 using Amazon.S3;
-using Amazon.S3.Transfer;
+using Amazon.S3.Model;
+
 using QrCodeGenerator.Ports;
 
 namespace QrCodeGenerator.Adapters;
@@ -17,23 +18,19 @@ public class S3Storage : IStorage
 
     public async Task<string> Upload(string fileName, string contentType, byte[] content, CancellationToken cancellationToken)
     {
-        var fileTransferUtility = new TransferUtility(_client);
-
         using var stream = new MemoryStream(content);
 
-        var uploadRequest = new TransferUtilityUploadRequest
+        var request = new PutObjectRequest
         {
-            InputStream = stream,
             Key = fileName,
+            InputStream = stream,
+            ContentType = "image/png",
             BucketName = BUCKET_NAME,
-            ContentType = "image/png"
         };
 
-        await fileTransferUtility.UploadAsync(uploadRequest, cancellationToken);
+        await _client.PutObjectAsync(request, cancellationToken);
 
         string fileUrl = $"https://{BUCKET_NAME}.s3.amazonaws.com/{fileName}";
         return fileUrl;
     }
 }
-
-
