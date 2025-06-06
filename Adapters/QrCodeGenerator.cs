@@ -2,7 +2,7 @@ using QrCodeGenerator.Ports;
 
 namespace QrCodeGenerator.Adapters;
 
-public class QrCodeGenerator : IQRCodeGenerator
+public class QrCodeGeneratorAdpter: IQRCodeGenerator
 {
     public byte[] Generate(string text)
     {
