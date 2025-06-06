@@ -8,7 +8,7 @@ namespace QrCodeGenerator.Adapters;
 public class S3Storage : IStorage
 {
     private readonly IAmazonS3 _client;
-    private const string BUCKET_NAME = "321321";
+    private const string BUCKET_NAME = "bucket-qrcodes";
 
 
     public S3Storage(IAmazonS3 client)
